@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/onboarding_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/screens/home/home_cubit/home_cubit.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/login/login_screen.dart';
+import 'package:shop_app/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:shop_app/shared/style/themes.dart';
 
 import 'helper/cashe_helper.dart';
@@ -9,22 +13,33 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   DioHelper.init();
-  await CasheHelper.init();
-
-  runApp(const MyApp());
+  await CacheHelper.init();
+  bool onBoarding = CacheHelper.getData(key: 'onBoarding') ?? false;
+  String? token = CacheHelper.getData(key: 'token');
+  Widget startWidget = OnBoarding();
+  if (onBoarding) {
+    if (token != null) {
+      startWidget = HomeScreen();
+    } else {
+      startWidget = LoginScreen();
+    }
+  }
+  runApp(MyApp(startWidget));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  Widget startWidget;
+  MyApp(this.startWidget, {super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-      debugShowCheckedModeBanner: false,
-      home: const OnBoarding(),
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: MaterialApp(
+        theme: dark,
+        debugShowCheckedModeBanner: false,
+        home: startWidget,
+      ),
     );
   }
 }

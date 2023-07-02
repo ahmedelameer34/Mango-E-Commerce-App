@@ -1,11 +1,12 @@
 class LoginModel {
-  String? message;
-  bool? status;
+  String message = '';
+  bool status = false;
   UserData? data;
+  LoginModel.ft();
   LoginModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
-    data = UserData.fromJson(json['data']);
+    data = json['data'] != null ? UserData.fromJson(json['data']) : null;
   }
 }
 

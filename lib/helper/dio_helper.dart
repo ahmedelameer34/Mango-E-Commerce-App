@@ -6,15 +6,13 @@ class DioHelper {
     dio = Dio(BaseOptions(
         baseUrl: 'https://student.valuxapps.com/api/',
         receiveDataWhenStatusError: true,
-        headers: {'Content-Type': 'application/json'}));
+        headers: {'Content-Type': 'application/json', 'lang': 'en'}));
   }
 
-  Future<Response> postData({
-    required String url,
-    dynamic data,
-    String? token,
-  }) async {
+  static Future<Response> postData(
+      {required String url, dynamic data, String? token, String? lang}) async {
     dio!.options.headers = {
+      'lang': lang,
       'Content-Type': 'application/json',
       'Authorization': token ?? '',
     };
@@ -25,14 +23,12 @@ class DioHelper {
     );
   }
 
-  Future<Response> putData({
-    required String url,
-    dynamic data,
-    String? token,
-  }) async {
+  Future<Response> putData(
+      {required String url, dynamic data, String? token, String? lang}) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'Authorization': token ?? '',
+      'lang': lang
     };
 
     return await dio!.put(
@@ -41,14 +37,12 @@ class DioHelper {
     );
   }
 
-  Future<Response> getData({
-    required String url,
-    dynamic query,
-    String? token,
-  }) async {
+  Future<Response> getData(
+      {required String url, dynamic query, String? token, String? lang}) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
       'Authorization': token ?? '',
+      'lang': lang
     };
 
     return await dio!.get(

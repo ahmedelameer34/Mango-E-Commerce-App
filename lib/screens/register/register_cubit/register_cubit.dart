@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/helper/dio_helper.dart';
 import 'package:shop_app/models/register_model.dart';
 import 'package:shop_app/screens/register/register_cubit/register_states.dart';
 import '../../../helper/end_points.dart';
@@ -18,18 +18,22 @@ class RegisterCubit extends Cubit<ShopRegisterStates> {
       required String name,
       required String phone}) {
     emit(RegisterLoadingState());
-    Dio dio = Dio();
+    //Dio dio = Dio();
 
-    dio.options.baseUrl = 'https://student.valuxapps.com/api/';
+    // dio.options.baseUrl = 'https://student.valuxapps.com/api/';
 
-    dio.post(register, queryParameters: {
-      'email': email,
-      'password': password,
-      'name': name,
-      'phone': phone
-    }).then((value) {
+    DioHelper.postData(
+            url: register,
+            data: {
+              'email': email,
+              'password': password,
+              'name': name,
+              'phone': phone
+            },
+            lang: 'en')
+        .then((value) {
       registerModel = RegisterModel.fromJson(value.data);
-      print(value.data);
+
       emit(RegisterSuccessState(registerModel!));
     }).catchError((error) {
       emit(RegisterErrorState(error.toString()));

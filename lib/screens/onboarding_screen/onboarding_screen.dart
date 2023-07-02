@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/helper/cashe_helper.dart';
 import 'package:shop_app/screens/login/login_screen.dart';
 import 'package:shop_app/shared/components/function.dart';
 import 'package:shop_app/shared/style/colors.dart';
@@ -22,6 +23,15 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   var boardController = PageController();
   bool isLast = false;
+
+  lastOpen() {
+    CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
+      if (value) {
+        navigateAndFinish(context, LoginScreen());
+      }
+    });
+  }
+
   List<BoardingModel> boarding = [
     BoardingModel(
         image: 'assets/image/10117.jpg',
@@ -44,7 +54,7 @@ class _OnBoardingState extends State<OnBoarding> {
           actions: [
             TextButton(
                 onPressed: () {
-                  navigateAndFinish(context, LoginScreen());
+                  lastOpen();
                 },
                 child: const Text('Skip', style: TextStyle(fontSize: 20)))
           ],
@@ -92,7 +102,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   FloatingActionButton(
                     onPressed: () {
                       if (isLast) {
-                        navigateAndFinish(context, LoginScreen());
+                        lastOpen();
                       } else {
                         boardController.nextPage(
                             duration: const Duration(microseconds: 1400),
