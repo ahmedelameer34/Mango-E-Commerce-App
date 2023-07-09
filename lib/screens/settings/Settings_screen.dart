@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/shared/components/function.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -6,7 +7,13 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text('SettingsScreen')),
+      child: Center(
+          child: TextButton(
+        onPressed: () {
+          logOut(context);
+        },
+        child: Text('Logout'),
+      )),
     );
   }
 }

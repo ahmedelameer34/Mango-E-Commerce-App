@@ -25,4 +25,8 @@ class CacheHelper {
   static int? getInt({required String key}) {
     return sharedPreferences!.getInt(key);
   }
+
+  static Future<bool> removeData({required String key}) async {
+    return await sharedPreferences!.remove(key);
+  }
 }

@@ -38,36 +38,18 @@ class Data {
 class Banner {
   final int id;
   final String image;
-  final String? category;
-  final String? product;
 
   Banner({
     required this.id,
     required this.image,
-    this.category,
-    this.product,
   });
 
   factory Banner.fromJson(Map<String, dynamic> json) {
     return Banner(
       id: json['id'],
       image: json['image'],
-      category: json['category'],
-      product: json['product'],
     );
   }
-}
-
-class Category {
-  int id;
-  String image;
-  String name;
-
-  Category({
-    required this.id,
-    required this.image,
-    required this.name,
-  });
 }
 
 class Product {
@@ -98,9 +80,9 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'],
-      price: json['price'],
-      oldPrice: json['old_price'],
-      discount: json['discount'],
+      price: json['price'] + 0.0,
+      oldPrice: json['old_price'] + 0.0,
+      discount: json['discount'] + 0.0,
       image: json['image'],
       name: json['name'],
       description: json['description'],

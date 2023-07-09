@@ -23,7 +23,7 @@ class DioHelper {
     );
   }
 
-  Future<Response> putData(
+  static Future<Response> putData(
       {required String url, dynamic data, String? token, String? lang}) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ class DioHelper {
     );
   }
 
-  Future<Response> getData(
+  static Future<Response> getData(
       {required String url, dynamic query, String? token, String? lang}) async {
     dio!.options.headers = {
       'Content-Type': 'application/json',
