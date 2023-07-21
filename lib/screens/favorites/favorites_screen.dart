@@ -17,49 +17,53 @@ class FavoritesScreen extends StatelessWidget {
         var cubit = HomeCubit.get(context);
 
         return ConditionalBuilder(
-            fallback: (context) => Center(
+            fallback: (context) => const Center(
                   child: CircularProgressIndicator(),
                 ),
             builder: (context) {
-              return Container(
-                  child: cubit.favoritesModel!.data!.favData.isNotEmpty
-                      ? ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => favoritesBuilder(
-                              cubit.homeModel!,
-                              cubit.favoritesModel!.data!.favData[index],
-                              index,
-                              context),
-                          itemCount: cubit.favoritesModel!.data!.favData.length,
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const SizedBox(
-                              height: 5,
-                              child: Divider(
-                                thickness: 0.8,
-                                color: Colors.grey,
-                              ),
-                            );
-                          },
-                        )
-                      : Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.favorite_border_outlined),
-                              ),
-                              Text(
-                                "You don't like any product",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        ));
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                    child: cubit.favoritesModel!.data!.favData.isNotEmpty
+                        ? ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => favoritesBuilder(
+                                cubit.homeModel!,
+                                cubit.favoritesModel!.data!.favData[index],
+                                index,
+                                context),
+                            itemCount:
+                                cubit.favoritesModel!.data!.favData.length,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 5,
+                                child: Divider(
+                                  thickness: 0.8,
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
+                          )
+                        : const Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(Icons.favorite_border_outlined),
+                                ),
+                                Text(
+                                  "You don't like any product",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          )),
+              );
             },
-            condition: //state is SuccessGetFavoriteseState
-                cubit.favoritesModel != null && cubit.homeModel != null);
+            condition: cubit.favoritesModel != null && cubit.homeModel != null);
       },
     );
   }
@@ -81,29 +85,32 @@ Widget favoritesBuilder(
             onTap: () {},
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Stack(
-                alignment: Alignment.bottomLeft,
-                children: [
-                  Container(
-                    color: Colors.white,
-                    height: 180,
-                    width: 150,
-                    child: Image(
-                      image: NetworkImage(
-                        model.product.image,
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  if (model.product.oldPrice != model.product.price)
+              child: Card(
+                elevation: 5,
+                child: Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
                     Container(
-                      color: Colors.redAccent,
-                      child: Text(
-                        'Discount',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      color: Colors.white,
+                      height: 180,
+                      width: 150,
+                      child: Image(
+                        image: NetworkImage(
+                          model.product.image,
+                        ),
+                        //fit: BoxFit.cover,
                       ),
-                    )
-                ],
+                    ),
+                    if (model.product.oldPrice != model.product.price)
+                      Container(
+                        color: Colors.redAccent,
+                        child: const Text(
+                          'Discount',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                      )
+                  ],
+                ),
               ),
             ),
           ),
@@ -116,12 +123,12 @@ Widget favoritesBuilder(
                     Text(
                       model.product.name.toString(),
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       children: [
                         Padding(
@@ -129,28 +136,28 @@ Widget favoritesBuilder(
                           child: Column(
                             children: [
                               Text(
-                                model.product.price.toString() + 'EGP',
-                                style: TextStyle(
+                                '${model.product.price} EGP',
+                                style: const TextStyle(
                                     color: Colors.green, fontSize: 16),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               if (model.product.oldPrice != model.product.price)
                                 Text(
-                                  model.product.oldPrice.toString() + 'EGP',
-                                  style: TextStyle(
+                                  '${model.product.oldPrice} EGP',
+                                  style: const TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       color: Colors.red),
                                 ),
                             ],
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
                             iconSize: 20,
                             onPressed: () {},
-                            icon: Icon(Icons.shopping_cart)),
+                            icon: const Icon(Icons.shopping_cart)),
                         IconButton(
                             iconSize: 20,
                             onPressed: () {
@@ -160,7 +167,7 @@ Widget favoritesBuilder(
                             icon: Icon(
                               Icons.favorite_outlined,
                               color: HomeCubit.get(context)
-                                      .favorites[model.product.id]!
+                                      .favourites[model.product.id]!
                                   ? Colors.red
                                   : Colors.grey[700],
                             ))
