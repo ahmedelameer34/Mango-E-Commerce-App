@@ -6,14 +6,12 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-          child: TextButton(
-        onPressed: () {
-          logOut(context);
-        },
-        child: Text('Logout'),
-      )),
-    );
+    return Center(
+        child: TextButton(
+      onPressed: () {
+        logOut(context);
+      },
+      child: const Text('Logout'),
+    ));
   }
 }

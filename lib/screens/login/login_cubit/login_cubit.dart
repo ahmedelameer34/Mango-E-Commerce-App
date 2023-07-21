@@ -12,9 +12,6 @@ class LoginCubit extends Cubit<ShopLoginStates> {
   //user Login
   void userLogin({required String email, required String password}) {
     emit(LoginLoadingState());
-    //Dio dio = Dio();
-
-    //dio.options.baseUrl = 'https://student.valuxapps.com/api/';
 
     DioHelper.postData(
             data: {'email': email, 'password': password},

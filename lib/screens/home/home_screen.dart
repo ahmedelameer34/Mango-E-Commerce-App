@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/screens/cart/cart_screen.dart';
 import 'package:shop_app/screens/home/home_cubit/home_cubit.dart';
 import 'package:shop_app/screens/home/home_cubit/home_states.dart';
+import 'package:shop_app/shared/components/function.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -17,45 +19,48 @@ class HomeScreen extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           var cubit = HomeCubit.get(context);
-          return SafeArea(
-            child: Scaffold(
-              key: formKey,
-              appBar: AppBar(
-                title: Text('Astra'),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: IconButton(
-                      icon: Icon(Icons.shopping_cart),
-                      onPressed: () {},
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {},
-                    ),
-                  )
-                ],
+          return Scaffold(
+            key: formKey,
+            appBar: AppBar(
+              title: Image.asset(
+                'assets/image/75x.png',
+                scale: 3.2,
               ),
-              body: cubit.bottomScreens[cubit.currentIndex],
-              bottomNavigationBar: BottomNavigationBar(
-                  onTap: (index) {
-                    cubit.changeBottomNav(index);
-                  },
-                  currentIndex: cubit.currentIndex,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.home), label: 'Home'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.category), label: 'Categories'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.favorite), label: 'Favorites'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.settings), label: 'Settings'),
-                  ]),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.shopping_cart),
+                    onPressed: () {
+                      navigateTo(context, CartScreen());
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {},
+                  ),
+                )
+              ],
             ),
+            body: cubit.bottomScreens[cubit.currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+                onTap: (index) {
+                  cubit.changeBottomNav(index);
+                },
+                currentIndex: cubit.currentIndex,
+                items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Home'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.category), label: 'Categories'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.favorite), label: 'Favorites'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings), label: 'Settings'),
+                ]),
           );
         },
       ),

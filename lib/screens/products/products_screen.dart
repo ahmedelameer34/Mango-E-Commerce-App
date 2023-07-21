@@ -7,6 +7,9 @@ import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/screens/home/home_cubit/home_cubit.dart';
 import 'package:shop_app/screens/home/home_cubit/home_states.dart';
+import 'package:shop_app/shared/components/function.dart';
+
+import '../product_details/product_screen.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
@@ -35,7 +38,7 @@ class ProductScreen extends StatelessWidget {
             builder: (context) {
               return screenBuilder(cubit.homeModel!, cubit.categoriesModel!);
             },
-            fallback: (context) => Center(
+            fallback: (context) => const Center(
                   child: CircularProgressIndicator(),
                 ));
       },
@@ -45,12 +48,12 @@ class ProductScreen extends StatelessWidget {
 
 Widget screenBuilder(HomeModel model, CategoriesModel catModel) {
   return SingleChildScrollView(
-    physics: BouncingScrollPhysics(),
+    physics: const BouncingScrollPhysics(),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CarouselSlider(
-            items: model.data!.banners
+            items: model.data!.banners!
                 .map((e) => Image(image: NetworkImage(e.image)))
                 .toList(),
             options: CarouselOptions(
@@ -62,9 +65,9 @@ Widget screenBuilder(HomeModel model, CategoriesModel catModel) {
                 scrollDirection: Axis.horizontal,
                 reverse: false,
                 autoPlay: true,
-                autoPlayInterval: Duration(seconds: 4),
-                autoPlayAnimationDuration: Duration(seconds: 1))),
-        SizedBox(
+                autoPlayInterval: const Duration(seconds: 4),
+                autoPlayAnimationDuration: const Duration(seconds: 1))),
+        const SizedBox(
           height: 10,
         ),
         Padding(
@@ -72,27 +75,27 @@ Widget screenBuilder(HomeModel model, CategoriesModel catModel) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Categories',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 80,
                 child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) =>
                       categoryBuilder(catModel, index),
-                  separatorBuilder: (context, index) => SizedBox(
+                  separatorBuilder: (context, index) => const SizedBox(
                     width: 10,
                   ),
                   itemCount: catModel.data.data.length,
                   scrollDirection: Axis.horizontal,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 'New products',
                 style: TextStyle(
                   fontSize: 22,
@@ -100,11 +103,11 @@ Widget screenBuilder(HomeModel model, CategoriesModel catModel) {
                 ),
               ),
               ListView.separated(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemBuilder: (context, index) =>
-                    productBuilder(model, index, context),
-                itemCount: model.data!.products.length,
+                itemBuilder: (context, index) => productBuilder(
+                    model.data!.products![index], index, context),
+                itemCount: model.data!.products!.length,
                 separatorBuilder: (BuildContext context, int index) {
                   return const SizedBox(
                     height: 5,
@@ -141,7 +144,7 @@ Widget categoryBuilder(CategoriesModel model, int index) {
             color: Colors.black.withOpacity(.7),
             child: Text(
               model.data.data[index].name,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
@@ -156,9 +159,9 @@ Widget categoryBuilder(CategoriesModel model, int index) {
 }
 
 Widget productBuilder(
-  HomeModel model,
+  Product model,
   int index,
-  context,
+  BuildContext context,
 ) {
   return Container(
       decoration: BoxDecoration(color: Colors.grey[50]),
@@ -167,33 +170,43 @@ Widget productBuilder(
       child: Row(
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              navigateTo(
+                  context,
+                  ProductDetailsScreen(
+                    productDetails: model,
+                  ));
+              //  HomeCubit.get(context)
+              //  .getProductData(model.data!.products[index].id);
+            },
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Stack(
-                alignment: Alignment.bottomLeft,
-                children: [
-                  Container(
-                    color: Colors.white,
-                    height: 200,
-                    width: 150,
-                    child: Image(
-                      image: NetworkImage(
-                        model.data!.products[index].image,
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  if (model.data!.products[index].oldPrice !=
-                      model.data!.products[index].price)
+              child: Card(
+                elevation: 6,
+                child: Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: [
                     Container(
-                      color: Colors.redAccent,
-                      child: Text(
-                        'Discount',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      color: Colors.white,
+                      height: 200,
+                      width: 150,
+                      child: Image(
+                        image: NetworkImage(
+                          model.image!,
+                        ),
+                        // fit: BoxFit.cover,
                       ),
-                    )
-                ],
+                    ),
+                    if (model.oldPrice != model.price)
+                      Container(
+                        color: Colors.redAccent,
+                        child: const Text(
+                          'Discount',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                        ),
+                      )
+                  ],
+                ),
               ),
             ),
           ),
@@ -204,14 +217,14 @@ Widget productBuilder(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      model.data!.products[index].name.toString(),
+                      model.name.toString(),
                       maxLines: 2,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Row(
                       children: [
                         Padding(
@@ -219,44 +232,45 @@ Widget productBuilder(
                           child: Column(
                             children: [
                               Text(
-                                model.data!.products[index].price.toString() +
-                                    'EGP',
-                                style: TextStyle(
+                                '${model.price} EGP',
+                                style: const TextStyle(
                                     color: Colors.green, fontSize: 16),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
-                              if (model.data!.products[index].oldPrice !=
-                                  model.data!.products[index].price)
+                              if (model.oldPrice != model.price)
                                 Text(
-                                  model.data!.products[index].oldPrice
-                                          .toString() +
-                                      'EGP',
-                                  style: TextStyle(
+                                  '${model.oldPrice} EGP',
+                                  style: const TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       color: Colors.red),
                                 ),
                             ],
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         IconButton(
-                            iconSize: 20,
-                            onPressed: () {},
-                            icon: Icon(Icons.shopping_cart)),
+                          iconSize: 20,
+                          onPressed: () {
+                            HomeCubit.get(context).changeCart(model.id);
+                          },
+                          icon: const Icon(Icons.shopping_cart),
+                          color: HomeCubit.get(context).cart[model.id]!
+                              ? Colors.green
+                              : Colors.grey[700],
+                        ),
                         IconButton(
                             iconSize: 20,
                             onPressed: () {
-                              HomeCubit.get(context).changeFavorites(
-                                  model.data!.products[index].id);
+                              HomeCubit.get(context).changeFavorites(model.id);
                             },
                             icon: Icon(
                               Icons.favorite_outlined,
-                              color: HomeCubit.get(context).favorites[
-                                      model.data!.products[index].id]!
-                                  ? Colors.red
-                                  : Colors.grey[700],
+                              color:
+                                  HomeCubit.get(context).favourites[model.id]!
+                                      ? Colors.red
+                                      : Colors.grey[700],
                             ))
                       ],
                     )

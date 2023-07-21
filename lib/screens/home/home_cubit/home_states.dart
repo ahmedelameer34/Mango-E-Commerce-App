@@ -1,4 +1,5 @@
 import 'package:shop_app/models/change_favorites.dart';
+import 'package:shop_app/models/product_details_model.dart';
 
 abstract class HomeStates {}
 
@@ -44,9 +45,47 @@ class ErorrChangeFavoritesState extends HomeStates {
 //get favorites states
 class GetFavoritesLoadingState extends HomeStates {}
 
-class SuccessGetFavoriteseState extends HomeStates {}
+class SuccessGetFavoritesState extends HomeStates {}
 
 class ErorrGetFavoritesState extends HomeStates {
   final String error;
   ErorrGetFavoritesState(this.error);
+}
+
+// change cart states
+
+class ChangeCartState extends HomeStates {}
+
+class SuccessChangeCartState extends HomeStates {
+  final ChangeCartModel model;
+
+  SuccessChangeCartState(this.model);
+}
+
+class ErorrChangeCartState extends HomeStates {
+  final String error;
+  ErorrChangeCartState(this.error);
+}
+
+//get Cart states
+class GetCartLoadingState extends HomeStates {}
+
+class SuccessGetCartState extends HomeStates {}
+
+class ErorrGetCartState extends HomeStates {
+  final String error;
+  ErorrGetCartState(this.error);
+}
+
+class GetProductDataLoadingState extends HomeStates {}
+
+class SuccessGetProductDataState extends HomeStates {
+  final ProductDetails productDetails;
+
+  SuccessGetProductDataState(this.productDetails);
+}
+
+class ErorrGetProductDataState extends HomeStates {
+  final String error;
+  ErorrGetProductDataState(this.error);
 }

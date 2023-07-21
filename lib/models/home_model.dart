@@ -14,24 +14,22 @@ class HomeModel {
 }
 
 class Data {
-  final List<Banner> banners;
-  final List<Product> products;
+  List<Banner>? banners;
+  List<Product>? products;
 
-  Data({required this.banners, required this.products});
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    List<Banner> banners = [];
-    List<Product> products = [];
-
-    for (var bannerJson in json['banners']) {
-      banners.add(Banner.fromJson(bannerJson));
+  Data.fromJson(Map<String, dynamic> json) {
+    if (json['banners'] != null) {
+      banners = [];
+      json['banners'].forEach((element) {
+        banners!.add(Banner.fromJson(element));
+      });
     }
-
-    for (var productJson in json['products']) {
-      products.add(Product.fromJson(productJson));
+    if (json['products'] != null) {
+      products = <Product>[];
+      json['products'].forEach((element) {
+        products!.add(Product.fromJson(element));
+      });
     }
-
-    return Data(banners: banners, products: products);
   }
 }
 
@@ -53,16 +51,16 @@ class Banner {
 }
 
 class Product {
-  final int id;
+  final int? id;
   final double price;
   final double oldPrice;
   final double discount;
-  final String image;
-  final String name;
-  final String description;
+  final String? image;
+  final String? name;
+  final String? description;
   final List<String> images;
-  final bool inFavorites;
-  final bool inCart;
+  final bool? inFavorites;
+  final bool? inCart;
 
   Product({
     required this.id,

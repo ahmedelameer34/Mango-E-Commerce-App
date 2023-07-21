@@ -40,11 +40,11 @@ class LoginScreen extends StatelessWidget {
                         'Welcome back ,',
                         style: TextStyle(color: mainColor, fontSize: 25),
                       ),
-                      Text(
+                      const Text(
                         'Login to continue',
                         style: TextStyle(color: mainColor, fontSize: 25),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       defTextFormField(
@@ -82,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                         prefix: Icons.lock_outline,
                         suffix: LoginCubit.get(context).suffix,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Column(
@@ -90,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                         children: [
                           ConditionalBuilder(
                               condition: state is! LoginLoadingState,
-                              fallback: (context) => Center(
+                              fallback: (context) => const Center(
                                     child: CircularProgressIndicator(),
                                   ),
                               builder: (context) {
@@ -105,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                                     text: 'LOG IN',
                                     color: Colors.white);
                               }),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           registerAsk(

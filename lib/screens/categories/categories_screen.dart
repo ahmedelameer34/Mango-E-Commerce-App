@@ -13,7 +13,7 @@ class CategoriesScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
         return ListView.separated(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           itemBuilder: (BuildContext context, int index) {
             return SizedBox(
                 width: double.infinity,
@@ -33,21 +33,21 @@ class CategoriesScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(10.0),
                         child: Text(
                           cubit.categoriesModel!.data.data[index].name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.arrow_forward_ios_rounded))
+                          icon: const Icon(Icons.arrow_forward_ios_rounded))
                     ],
                   ),
                 ));
           },
           itemCount: cubit.categoriesModel!.data.data.length,
           separatorBuilder: (BuildContext context, int index) {
-            return SizedBox(
+            return const SizedBox(
               height: 5,
             );
           },

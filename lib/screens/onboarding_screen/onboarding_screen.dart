@@ -109,7 +109,7 @@ class _OnBoardingState extends State<OnBoarding> {
                             curve: Curves.fastLinearToSlowEaseIn);
                       }
                     },
-                    child: Icon(Icons.arrow_forward_ios),
+                    child: const Icon(Icons.arrow_forward_ios),
                   )
                 ],
               )
@@ -126,19 +126,19 @@ class _OnBoardingState extends State<OnBoarding> {
                   image: AssetImage(
             model.image,
           ))),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
             model.title,
-            style: TextStyle(fontSize: 24, color: Colors.black),
+            style: const TextStyle(fontSize: 24, color: Colors.black),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Text(
             model.body,
-            style: TextStyle(fontSize: 18, color: Colors.black),
+            style: const TextStyle(fontSize: 18, color: Colors.black),
           ),
         ],
       );

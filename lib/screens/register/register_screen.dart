@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/screens/login/login_screen.dart';
@@ -8,8 +10,9 @@ import '../../shared/components/materials.dart';
 import '../../shared/style/colors.dart';
 
 class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
   var formKey = GlobalKey<FormState>();
+
+  RegisterScreen({super.key});
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
@@ -30,11 +33,11 @@ class RegisterScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Register now',
                         style: TextStyle(color: mainColor, fontSize: 25),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       defTextFormField(
@@ -96,7 +99,7 @@ class RegisterScreen extends StatelessWidget {
                         prefix: Icons.lock_outline,
                         suffix: RegisterCubit.get(context).suffix,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Column(
@@ -114,7 +117,7 @@ class RegisterScreen extends StatelessWidget {
                               }),
                               text: 'REGISTER',
                               color: Colors.white),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           loginAsk(

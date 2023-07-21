@@ -51,7 +51,7 @@ Widget defaultButton({
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(mainColor),
         padding: MaterialStateProperty.all(
-            EdgeInsets.symmetric(horizontal: 106, vertical: 10)),
+            const EdgeInsets.symmetric(horizontal: 106, vertical: 10)),
         shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(27))),
       ),

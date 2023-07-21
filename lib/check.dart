@@ -8,11 +8,13 @@ class CarouselSliderScreen extends StatelessWidget {
     'https://picsum.photos/640/480?r=789',
   ];
 
+  CarouselSliderScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Carousel Slider'),
+        title: const Text('Carousel Slider'),
       ),
       body: Builder(builder: (context) {
         return CarouselSlider(
@@ -26,8 +28,8 @@ class CarouselSliderScreen extends StatelessWidget {
             height: 200,
             autoPlay: true,
             enlargeCenterPage: true,
-            autoPlayInterval: Duration(seconds: 3),
-            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayAnimationDuration: const Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
             //  infiniteScrollInterval: Duration(seconds: 2),
