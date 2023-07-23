@@ -56,7 +56,8 @@ class _OnBoardingState extends State<OnBoarding> {
                 onPressed: () {
                   lastOpen();
                 },
-                child: const Text('Skip', style: TextStyle(fontSize: 20)))
+                child: const Text('Skip',
+                    style: TextStyle(fontSize: 20, color: mainColor)))
           ],
         ),
         body: Padding(
@@ -100,6 +101,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   ),
                   const Spacer(),
                   FloatingActionButton(
+                    backgroundColor: mainColor,
                     onPressed: () {
                       if (isLast) {
                         lastOpen();

@@ -14,7 +14,11 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is SuccessAddItemState) {
+          state.cartItem.quantity++;
+        }
+      },
       builder: (context, state) {
         var cubit = HomeCubit.get(context);
         return Scaffold(
@@ -34,7 +38,10 @@ class CartScreen extends StatelessWidget {
                                   cubit.homeModel!,
                                   cubit.cartModel!.data.cartItems[index],
                                   index,
-                                  context),
+                                  context,
+                                  cubit
+                                      .cartModel!.data.cartItems[index].quantity
+                                      .toString()),
                               itemCount: cubit.cartModel!.data.cartItems.length,
                               separatorBuilder:
                                   (BuildContext context, int index) {
@@ -48,17 +55,97 @@ class CartScreen extends StatelessWidget {
                               },
                             ),
                           ),
-                          Container(
-                              height: 50,
-                              width: 250,
-                              child: Expanded(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                        'total =${cubit.cartModel!.data.total}')
-                                  ],
-                                ),
-                              ))
+                          SizedBox(
+                            width: double.infinity,
+                            child: Card(
+                              color: Colors.grey[50],
+                              elevation: 0.5,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'Subtotal ',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          '${cubit.cartModel!.data.subTotal} EGP',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'fees ',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          '0 EGP',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          'total ',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Spacer(),
+                                        Text(
+                                          '${cubit.cartModel!.data.total} EGP',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black54,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('Checkout',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     : const Center(
@@ -90,11 +177,7 @@ class CartScreen extends StatelessWidget {
 }
 
 Widget cartBuilder(
-  HomeModel homeModel,
-  CartItem model,
-  int index,
-  context,
-) {
+    HomeModel homeModel, CartItem model, int index, context, String quantity) {
   return Container(
       decoration: BoxDecoration(color: Colors.grey[50]),
       width: double.infinity,
@@ -148,7 +231,30 @@ Widget cartBuilder(
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        children: [
+                          Spacer(),
+                          IconButton(
+                            icon: Icon(Icons.add),
+                            onPressed: () {
+                              HomeCubit.get(context).addItem(model.quantity);
+                            },
+                          ),
+                          Text(
+                            quantity,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.remove),
+                            onPressed: () {
+                              HomeCubit.get(context).addItem(model.quantity);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
                     Row(
                       children: [
                         Padding(

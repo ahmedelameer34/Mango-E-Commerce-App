@@ -1,9 +1,9 @@
-import 'home_model.dart';
+import 'package:shop_app/models/product_details_model.dart';
 
 class CartModel {
   bool status;
   dynamic message;
-  Data data;
+  CartData data;
 
   CartModel({
     required this.status,
@@ -14,33 +14,33 @@ class CartModel {
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: CartData.fromJson(json["data"]),
       );
 }
 
-class Data {
+class CartData {
   List<CartItem> cartItems;
-  int subTotal;
-  int total;
+  double subTotal;
+  double total;
 
-  Data({
+  CartData({
     required this.cartItems,
     required this.subTotal,
     required this.total,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory CartData.fromJson(Map<String, dynamic> json) => CartData(
         cartItems: List<CartItem>.from(
             json["cart_items"].map((x) => CartItem.fromJson(x))),
-        subTotal: json["sub_total"],
-        total: json["total"],
+        subTotal: json["sub_total"] + 0.0,
+        total: json["total"] + 0.0,
       );
 }
 
 class CartItem {
   int id;
   int quantity;
-  Product product;
+  ProductModel product;
 
   CartItem({
     required this.id,
@@ -51,6 +51,15 @@ class CartItem {
   factory CartItem.fromJson(Map<String, dynamic> json) => CartItem(
         id: json["id"],
         quantity: json["quantity"],
-        product: Product.fromJson(json["product"]),
+        product: ProductModel.fromJson(json["product"]),
       );
+}
+
+class ChangeCartModel {
+  bool? status;
+  String? message;
+  ChangeCartModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+  }
 }

@@ -1,34 +1,16 @@
-class ProductDetails {
-  bool status;
-  dynamic message;
-  Data data;
+class ProductModel {
+  final int? id;
+  final double price;
+  final double oldPrice;
+  final double discount;
+  final String? image;
+  final String? name;
+  final String? description;
+  final List<String> images;
+  final bool? inFavorites;
+  final bool? inCart;
 
-  ProductDetails({
-    required this.status,
-    this.message,
-    required this.data,
-  });
-
-  factory ProductDetails.fromJson(Map<String, dynamic> json) => ProductDetails(
-        status: json["status"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
-      );
-}
-
-class Data {
-  int id;
-  int price;
-  int oldPrice;
-  int discount;
-  String image;
-  String name;
-  String description;
-  bool inFavorites;
-  bool inCart;
-  List<String> images;
-
-  Data({
+  ProductModel({
     required this.id,
     required this.price,
     required this.oldPrice,
@@ -36,21 +18,23 @@ class Data {
     required this.image,
     required this.name,
     required this.description,
+    required this.images,
     required this.inFavorites,
     required this.inCart,
-    required this.images,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
-        price: json["price"] + 0.0,
-        oldPrice: json["old_price"] + 0.0,
-        discount: json["discount"] + 0.0,
-        image: json["image"],
-        name: json["name"],
-        description: json["description"],
-        inFavorites: json["in_favorites"],
-        inCart: json["in_cart"],
-        images: List<String>.from(json["images"].map((x) => x)),
-      );
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    return ProductModel(
+      id: json['id'],
+      price: json['price'] + 0.0,
+      oldPrice: json['old_price'] + 0.0,
+      discount: json['discount'] + 0.0,
+      image: json['image'],
+      name: json['name'],
+      description: json['description'],
+      images: List<String>.from(json['images']),
+      inFavorites: json['in_favorites'],
+      inCart: json['in_cart'],
+    );
+  }
 }

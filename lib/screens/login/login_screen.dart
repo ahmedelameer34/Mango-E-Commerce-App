@@ -21,126 +21,123 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
-    return BlocProvider(
-      create: (BuildContext context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, ShopLoginStates>(
-        builder: (context, state) {
-          return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset('assets/image/login.png',
-                          width: 350, height: 250),
-                      const Text(
-                        'Welcome back ,',
-                        style: TextStyle(color: mainColor, fontSize: 25),
-                      ),
-                      const Text(
-                        'Login to continue',
-                        style: TextStyle(color: mainColor, fontSize: 25),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      defTextFormField(
-                          controller: emailController,
-                          textType: TextInputType.emailAddress,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                          label: 'Email',
-                          prefix: Icons.email_outlined),
-                      defTextFormField(
-                        onPressedsuffix: () {
-                          LoginCubit.get(context).seePassword();
-                        },
-                        controller: passwordController,
-                        isPassword: LoginCubit.get(context).seePasword,
-                        textType: TextInputType.visiblePassword,
-                        onSubmit: (value) {
-                          if (formKey.currentState!.validate()) {
-                            LoginCubit.get(context).userLogin(
-                                email: emailController.text,
-                                password: passwordController.text);
-                          }
-                        },
+    return BlocConsumer<LoginCubit, ShopLoginStates>(
+      builder: (context, state) {
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset('assets/image/login.png',
+                        width: 350, height: 250),
+                    const Text(
+                      'Welcome back ,',
+                      style: TextStyle(color: mainColor, fontSize: 25),
+                    ),
+                    const Text(
+                      'Login to continue',
+                      style: TextStyle(color: mainColor, fontSize: 25),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    defTextFormField(
+                        controller: emailController,
+                        textType: TextInputType.emailAddress,
                         validate: (value) {
                           if (value.isEmpty) {
-                            return 'Please enter your password';
+                            return 'Please enter your email';
                           }
                           return null;
                         },
-                        label: 'Password',
-                        prefix: Icons.lock_outline,
-                        suffix: LoginCubit.get(context).suffix,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ConditionalBuilder(
-                              condition: state is! LoginLoadingState,
-                              fallback: (context) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                              builder: (context) {
-                                return defaultButton(
-                                    onPressed: (() {
-                                      if (formKey.currentState!.validate()) {
-                                        LoginCubit.get(context).userLogin(
-                                            email: emailController.text,
-                                            password: passwordController.text);
-                                      }
-                                    }),
-                                    text: 'LOG IN',
-                                    color: Colors.white);
-                              }),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          registerAsk(
-                              context: context,
-                              color: mainColor,
-                              widget: RegisterScreen()), //wait for build
-                        ],
-                      )
-                    ],
-                  ),
+                        label: 'Email',
+                        prefix: Icons.email_outlined),
+                    defTextFormField(
+                      onPressedsuffix: () {
+                        LoginCubit.get(context).seePassword();
+                      },
+                      controller: passwordController,
+                      isPassword: LoginCubit.get(context).seePasword,
+                      textType: TextInputType.visiblePassword,
+                      onSubmit: (value) {
+                        if (formKey.currentState!.validate()) {
+                          LoginCubit.get(context).userLogin(
+                              email: emailController.text,
+                              password: passwordController.text);
+                        }
+                      },
+                      validate: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                      label: 'Password',
+                      prefix: Icons.lock_outline,
+                      suffix: LoginCubit.get(context).suffix,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ConditionalBuilder(
+                            condition: state is! LoginLoadingState,
+                            fallback: (context) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                            builder: (context) {
+                              return defaultButton(
+                                  onPressed: (() {
+                                    if (formKey.currentState!.validate()) {
+                                      LoginCubit.get(context).userLogin(
+                                          email: emailController.text,
+                                          password: passwordController.text);
+                                    }
+                                  }),
+                                  text: 'LOG IN',
+                                  color: Colors.white);
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        registerAsk(
+                            context: context,
+                            color: mainColor,
+                            widget: RegisterScreen()), //wait for build
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
-          );
-        },
-        listener: (context, state) {
-          if (state is LoginSuccessState) {
-            //navigateAndFinish(context, const HomeScreen());
-            if (state.loginModel.status) {
-              CacheHelper.saveData(
-                      key: 'token', value: state.loginModel.data!.token)
-                  .then((value) {
-                return navigateAndFinish(context, HomeScreen());
-              });
-              print(state.loginModel.message);
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.loginModel.message)));
-            } else {
-              print(state.loginModel.message);
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.loginModel.message)));
-            }
+          ),
+        );
+      },
+      listener: (context, state) {
+        if (state is LoginSuccessState) {
+          //navigateAndFinish(context, const HomeScreen());
+          if (state.loginModel.status) {
+            CacheHelper.saveData(
+                    key: 'token', value: state.loginModel.data!.token)
+                .then((value) {
+              return navigateAndFinish(context, HomeScreen());
+            });
+            print(state.loginModel.message);
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.loginModel.message)));
+          } else {
+            print(state.loginModel.message);
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.loginModel.message)));
           }
-        },
-      ),
+        }
+      },
     );
   }
 }

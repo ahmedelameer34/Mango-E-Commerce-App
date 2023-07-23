@@ -17,7 +17,7 @@ class CategoriesModel {
 
 class Data {
   int currentPage;
-  List<CartData> data;
+  List<CatData> data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -46,8 +46,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         currentPage: json["current_page"],
-        data:
-            List<CartData>.from(json["data"].map((x) => CartData.fromJson(x))),
+        data: List<CatData>.from(json["data"].map((x) => CatData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -61,18 +60,18 @@ class Data {
       );
 }
 
-class CartData {
+class CatData {
   int id;
   String name;
   String image;
 
-  CartData({
+  CatData({
     required this.id,
     required this.name,
     required this.image,
   });
 
-  factory CartData.fromJson(Map<String, dynamic> json) => CartData(
+  factory CatData.fromJson(Map<String, dynamic> json) => CatData(
         id: json["id"],
         name: json["name"],
         image: json["image"],

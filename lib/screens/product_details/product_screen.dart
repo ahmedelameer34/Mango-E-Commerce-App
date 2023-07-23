@@ -2,17 +2,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/product_details_model.dart';
 
 import 'package:shop_app/screens/home/home_cubit/home_cubit.dart';
 import 'package:shop_app/screens/home/home_cubit/home_states.dart';
 
-import '../../models/home_model.dart';
-
 // ignore: must_be_immutable
 class ProductDetailsScreen extends StatelessWidget {
-  Product? productDetails;
+  ProductModel? model;
 
-  ProductDetailsScreen({super.key, required this.productDetails});
+  ProductDetailsScreen({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +39,10 @@ class ProductDetailsScreen extends StatelessWidget {
                             alignment: AlignmentDirectional.topStart,
                             children: [
                               Image(
-                                image: NetworkImage(productDetails!.image!),
+                                image: NetworkImage(model!.image!),
                                 fit: BoxFit.cover,
                               ),
-                              if (productDetails!.oldPrice !=
-                                  productDetails!.price)
+                              if (model!.oldPrice != model!.price)
                                 Container(
                                   color: Colors.redAccent,
                                   child: const Text(
@@ -63,7 +61,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       height: 70,
                       width: 200,
                       child: CarouselSlider(
-                          items: productDetails!.images
+                          items: model!.images
                               .map((e) => Image(
                                     image: NetworkImage(e),
                                     fit: BoxFit.cover,
@@ -85,7 +83,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            productDetails!.name!,
+                            model!.name!,
                             maxLines: 2,
                             style: const TextStyle(
                               fontSize: 24,
@@ -97,14 +95,13 @@ class ProductDetailsScreen extends StatelessWidget {
                               Column(
                                 children: [
                                   Text(
-                                    '${productDetails!.price} EGP',
+                                    '${model!.price} EGP',
                                     style: const TextStyle(
                                         color: Colors.green, fontSize: 18),
                                   ),
-                                  if (productDetails!.oldPrice !=
-                                      productDetails!.price)
+                                  if (model!.oldPrice != model!.price)
                                     Text(
-                                      '${productDetails!.oldPrice} EGP',
+                                      '${model!.oldPrice} EGP',
                                       style: const TextStyle(
                                           fontSize: 16,
                                           decoration:
@@ -116,16 +113,21 @@ class ProductDetailsScreen extends StatelessWidget {
                               const Spacer(),
                               IconButton(
                                   iconSize: 24,
-                                  onPressed: () {},
+                                  color: cubit.cart[model!.id]!
+                                      ? Colors.green
+                                      : Colors.grey[700],
+                                  onPressed: () {
+                                    cubit.changeCart(model!.id);
+                                  },
                                   icon: const Icon(Icons.shopping_cart)),
                               IconButton(
                                   iconSize: 24,
                                   onPressed: () {
-                                    cubit.changeFavorites(productDetails!.id!);
+                                    cubit.changeFavorites(model!.id);
                                   },
                                   icon: Icon(
                                     Icons.favorite_outlined,
-                                    color: cubit.favourites[productDetails!.id]!
+                                    color: cubit.favourites[model!.id]!
                                         ? Colors.red
                                         : Colors.grey[700],
                                   ))
@@ -141,7 +143,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            productDetails!.description!,
+                            model!.description!,
                             style: const TextStyle(
                               fontSize: 16,
                             ),
@@ -154,7 +156,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               height: 220,
                               width: double.infinity,
                               child: CarouselSlider(
-                                  items: productDetails!.images
+                                  items: model!.images
                                       .map((e) => Image(
                                             image: NetworkImage(e),
                                             fit: BoxFit.cover,
@@ -178,7 +180,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               );
             },
-            condition: productDetails != null && cubit.homeModel != null,
+            condition: model != null && cubit.homeModel != null,
             fallback: (BuildContext context) {
               return const Center(
                 child: CircularProgressIndicator(),

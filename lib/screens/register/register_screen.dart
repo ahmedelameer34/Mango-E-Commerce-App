@@ -19,121 +19,118 @@ class RegisterScreen extends StatelessWidget {
     var passwordController = TextEditingController();
     var nameController = TextEditingController();
     var phoneController = TextEditingController();
-    return BlocProvider(
-      create: (BuildContext context) => RegisterCubit(),
-      child: BlocConsumer<RegisterCubit, ShopRegisterStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Register now',
-                        style: TextStyle(color: mainColor, fontSize: 25),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      defTextFormField(
-                          controller: nameController,
-                          textType: TextInputType.text,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your name';
-                            }
-                            return null;
-                          },
-                          label: 'Name',
-                          prefix: Icons.person_2_outlined),
-                      defTextFormField(
-                          controller: emailController,
-                          textType: TextInputType.emailAddress,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            return null;
-                          },
-                          label: 'Email',
-                          prefix: Icons.email_outlined),
-                      defTextFormField(
-                          controller: phoneController,
-                          textType: TextInputType.phone,
-                          validate: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your phone number';
-                            }
-                            return null;
-                          },
-                          label: 'Phone number',
-                          prefix: Icons.phone),
-                      defTextFormField(
-                        onPressedsuffix: () {
-                          RegisterCubit.get(context).seePassword();
-                        },
-                        controller: passwordController,
-                        isPassword: RegisterCubit.get(context).seePasword,
-                        textType: TextInputType.visiblePassword,
-                        onSubmit: (value) {
-                          if (formKey.currentState!.validate()) {
-                            RegisterCubit.get(context).userRegister(
-                                phone: phoneController.text,
-                                email: emailController.text,
-                                password: passwordController.text,
-                                name: nameController.text);
-                          }
-                        },
+    return BlocConsumer<RegisterCubit, ShopRegisterStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Register now',
+                      style: TextStyle(color: mainColor, fontSize: 25),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    defTextFormField(
+                        controller: nameController,
+                        textType: TextInputType.text,
                         validate: (value) {
                           if (value.isEmpty) {
-                            return 'Please enter your password';
+                            return 'Please enter your name';
                           }
                           return null;
                         },
-                        label: 'Password',
-                        prefix: Icons.lock_outline,
-                        suffix: RegisterCubit.get(context).suffix,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          defaultButton(
-                              onPressed: (() {
-                                if (formKey.currentState!.validate()) {
-                                  RegisterCubit.get(context).userRegister(
-                                      phone: phoneController.text,
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      name: nameController.text);
-                                }
-                              }),
-                              text: 'REGISTER',
-                              color: Colors.white),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          loginAsk(
-                              context: context,
-                              color: mainColor,
-                              widget: LoginScreen()), //wait for build
-                        ],
-                      )
-                    ],
-                  ),
+                        label: 'Name',
+                        prefix: Icons.person_2_outlined),
+                    defTextFormField(
+                        controller: emailController,
+                        textType: TextInputType.emailAddress,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                        label: 'Email',
+                        prefix: Icons.email_outlined),
+                    defTextFormField(
+                        controller: phoneController,
+                        textType: TextInputType.phone,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          return null;
+                        },
+                        label: 'Phone number',
+                        prefix: Icons.phone),
+                    defTextFormField(
+                      onPressedsuffix: () {
+                        RegisterCubit.get(context).seePassword();
+                      },
+                      controller: passwordController,
+                      isPassword: RegisterCubit.get(context).seePasword,
+                      textType: TextInputType.visiblePassword,
+                      onSubmit: (value) {
+                        if (formKey.currentState!.validate()) {
+                          RegisterCubit.get(context).userRegister(
+                              phone: phoneController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              name: nameController.text);
+                        }
+                      },
+                      validate: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                      label: 'Password',
+                      prefix: Icons.lock_outline,
+                      suffix: RegisterCubit.get(context).suffix,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        defaultButton(
+                            onPressed: (() {
+                              if (formKey.currentState!.validate()) {
+                                RegisterCubit.get(context).userRegister(
+                                    phone: phoneController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    name: nameController.text);
+                              }
+                            }),
+                            text: 'REGISTER',
+                            color: Colors.white),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        loginAsk(
+                            context: context,
+                            color: mainColor,
+                            widget: LoginScreen()), //wait for build
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

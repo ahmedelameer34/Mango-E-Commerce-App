@@ -1,5 +1,7 @@
-import 'package:shop_app/models/change_favorites.dart';
 import 'package:shop_app/models/product_details_model.dart';
+
+import '../../../models/cart_model.dart';
+import '../../../models/favorites_model.dart';
 
 abstract class HomeStates {}
 
@@ -80,7 +82,7 @@ class ErorrGetCartState extends HomeStates {
 class GetProductDataLoadingState extends HomeStates {}
 
 class SuccessGetProductDataState extends HomeStates {
-  final ProductDetails productDetails;
+  final ProductModel productDetails;
 
   SuccessGetProductDataState(this.productDetails);
 }
@@ -88,4 +90,28 @@ class SuccessGetProductDataState extends HomeStates {
 class ErorrGetProductDataState extends HomeStates {
   final String error;
   ErorrGetProductDataState(this.error);
+}
+
+//change item quantity
+class AddItemLoadingState extends HomeStates {}
+
+class SuccessAddItemState extends HomeStates {
+  final CartItem cartItem;
+
+  SuccessAddItemState(this.cartItem);
+}
+
+class ErorrAddItemState extends HomeStates {
+  final String error;
+  ErorrAddItemState(this.error);
+}
+
+// get profile sataes
+class GetProfileLoadingState extends HomeStates {}
+
+class SuccessGetProfileState extends HomeStates {}
+
+class ErorrGetProfileState extends HomeStates {
+  final String error;
+  ErorrGetProfileState(this.error);
 }

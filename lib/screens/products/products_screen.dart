@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categories_model.dart';
 
 import 'package:shop_app/models/home_model.dart';
+import 'package:shop_app/models/product_details_model.dart';
 import 'package:shop_app/screens/home/home_cubit/home_cubit.dart';
 import 'package:shop_app/screens/home/home_cubit/home_states.dart';
 import 'package:shop_app/shared/components/function.dart';
@@ -19,6 +20,18 @@ class ProductScreen extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         if (state is SuccessChangeFavoritesState) {
+          if (!state.model.status!) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.model.message.toString()),
+              backgroundColor: Colors.red,
+            ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(state.model.message.toString()),
+                backgroundColor: Colors.green));
+          }
+        }
+        if (state is SuccessChangeCartState) {
           if (!state.model.status!) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.model.message.toString()),
@@ -159,7 +172,7 @@ Widget categoryBuilder(CategoriesModel model, int index) {
 }
 
 Widget productBuilder(
-  Product model,
+  ProductModel model,
   int index,
   BuildContext context,
 ) {
@@ -174,10 +187,8 @@ Widget productBuilder(
               navigateTo(
                   context,
                   ProductDetailsScreen(
-                    productDetails: model,
+                    model: model,
                   ));
-              //  HomeCubit.get(context)
-              //  .getProductData(model.data!.products[index].id);
             },
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -191,9 +202,7 @@ Widget productBuilder(
                       height: 200,
                       width: 150,
                       child: Image(
-                        image: NetworkImage(
-                          model.image!,
-                        ),
+                        image: NetworkImage(model.image!),
                         // fit: BoxFit.cover,
                       ),
                     ),

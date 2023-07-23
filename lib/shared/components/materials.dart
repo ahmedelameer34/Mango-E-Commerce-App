@@ -26,21 +26,22 @@ Widget defTextFormField(
         onFieldSubmitted: onSubmit,
         validator: (value) => validate!(value!),
         enabled: isClickable,
+        style: TextStyle(color: Colors.black54, fontSize: 16),
         decoration: InputDecoration(
-          suffixIcon: IconButton(
-            icon: Icon(
-              suffix,
+            suffixIcon: IconButton(
+              icon: Icon(
+                suffix,
+                color: mainColor,
+              ),
+              onPressed: onPressedsuffix,
+            ),
+            prefixIcon: Icon(
+              prefix,
+              size: 30,
               color: mainColor,
             ),
-            onPressed: onPressedsuffix,
-          ),
-          prefixIcon: Icon(
-            prefix,
-            size: 30,
-            color: mainColor,
-          ),
-          labelText: label,
-        ));
+            labelText: label,
+            labelStyle: TextStyle(color: Colors.grey[600], fontSize: 16)));
 Widget defaultButton({
   required void Function()? onPressed,
   required String text,
