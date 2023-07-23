@@ -280,30 +280,37 @@ Widget cartBuilder(
                           ),
                         ),
                         const Spacer(),
-                        IconButton(
-                            iconSize: 20,
-                            color:
-                                HomeCubit.get(context).cart[model.product.id]!
-                                    ? Colors.green
+                        Expanded(
+                          child: IconButton(
+                              iconSize: 18,
+                              color:
+                                  HomeCubit.get(context).cart[model.product.id]!
+                                      ? Colors.green
+                                      : Colors.grey[700],
+                              onPressed: () {
+                                HomeCubit.get(context)
+                                    .changeCart(model.product.id);
+                              },
+                              icon: const Icon(Icons.shopping_cart)),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: IconButton(
+                              iconSize: 18,
+                              onPressed: () {
+                                HomeCubit.get(context)
+                                    .changeFavorites(model.product.id);
+                              },
+                              icon: Icon(
+                                Icons.favorite_outlined,
+                                color: HomeCubit.get(context)
+                                        .favourites[model.product.id]!
+                                    ? Colors.red
                                     : Colors.grey[700],
-                            onPressed: () {
-                              HomeCubit.get(context)
-                                  .changeCart(model.product.id);
-                            },
-                            icon: const Icon(Icons.shopping_cart)),
-                        IconButton(
-                            iconSize: 20,
-                            onPressed: () {
-                              HomeCubit.get(context)
-                                  .changeFavorites(model.product.id);
-                            },
-                            icon: Icon(
-                              Icons.favorite_outlined,
-                              color: HomeCubit.get(context)
-                                      .favourites[model.product.id]!
-                                  ? Colors.red
-                                  : Colors.grey[700],
-                            ))
+                              )),
+                        )
                       ],
                     )
                   ]),

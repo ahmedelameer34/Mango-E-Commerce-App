@@ -24,17 +24,21 @@ class CategoriesScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image(
-                          width: 140,
-                          height: 140,
+                          width: 130,
+                          height: 150,
                           fit: BoxFit.cover,
                           image: NetworkImage(
                               cubit.categoriesModel!.data.data[index].image)),
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          cubit.categoriesModel!.data.data[index].name,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                        child: Expanded(
+                          child: Text(
+                            cubit.categoriesModel!.data.data[index].name,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       const Spacer(),

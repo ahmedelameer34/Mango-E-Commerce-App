@@ -259,28 +259,36 @@ Widget productBuilder(
                           ),
                         ),
                         const Spacer(),
-                        IconButton(
-                          iconSize: 20,
-                          onPressed: () {
-                            HomeCubit.get(context).changeCart(model.id);
-                          },
-                          icon: const Icon(Icons.shopping_cart),
-                          color: HomeCubit.get(context).cart[model.id]!
-                              ? Colors.green
-                              : Colors.grey[700],
-                        ),
-                        IconButton(
-                            iconSize: 20,
+                        Expanded(
+                          child: IconButton(
+                            iconSize: 18,
                             onPressed: () {
-                              HomeCubit.get(context).changeFavorites(model.id);
+                              HomeCubit.get(context).changeCart(model.id);
                             },
-                            icon: Icon(
-                              Icons.favorite_outlined,
-                              color:
-                                  HomeCubit.get(context).favourites[model.id]!
-                                      ? Colors.red
-                                      : Colors.grey[700],
-                            ))
+                            icon: const Icon(Icons.shopping_cart),
+                            color: HomeCubit.get(context).cart[model.id]!
+                                ? Colors.green
+                                : Colors.grey[700],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: IconButton(
+                              iconSize: 18,
+                              onPressed: () {
+                                HomeCubit.get(context)
+                                    .changeFavorites(model.id);
+                              },
+                              icon: Icon(
+                                Icons.favorite_outlined,
+                                color:
+                                    HomeCubit.get(context).favourites[model.id]!
+                                        ? Colors.red
+                                        : Colors.grey[700],
+                              )),
+                        )
                       ],
                     )
                   ]),
